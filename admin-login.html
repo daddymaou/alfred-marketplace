@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Admin Login — ALFREDD</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin-login.css">
+<link rel="stylesheet" href="css/mobile.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <span class="logo-text">ALFREDD</span>
+  </div>
+  
+  <div class="mobile-actions">
+    <button class="mobile-theme-toggle" id="mobileThemeToggleBtn" aria-label="Toggle theme">
+      <svg class="mobile-sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="mobile-moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <button class="menu-btn" id="menuBtn">
+      <span class="menu-icon">
+        <span class="menu-dot"></span>
+        <span class="menu-dot"></span>
+        <span class="menu-dot"></span>
+      </span>
+      <span class="cancel-icon">✕</span>
+    </button>
+  </div>
+  
+  <ul class="desktop-nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="catalog.html">Catalog</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="admin-login.html" class="active nav-admin">Admin</a></li>
+    <li>
+      <button class="theme-toggle-btn" id="desktopThemeToggle" aria-label="Toggle theme">
+        <span class="theme-toggle-icon">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+      </button>
+    </li>
+  </ul>
+  
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Catalog</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="admin-login.html" class="active nav-admin">Admin</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- LOGIN SECTION -->
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-icon">
+        <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
+          <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" fill="none" stroke="var(--accent-color)" stroke-width="1.5"/>
+          <polygon points="16,8 24,13 24,19 16,24 8,19 8,13" fill="var(--accent-color)" opacity="0.2"/>
+          <text x="16" y="20" text-anchor="middle" fill="var(--accent-color)" font-size="10" font-family="Bebas Neue" letter-spacing="1">A</text>
+        </svg>
+      </div>
+      <h1>ADMIN ACCESS</h1>
+      <p>Enter your credentials to manage the marketplace</p>
+    </div>
+    
+    <div class="login-form">
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" id="adminUsername" class="login-input" placeholder="Enter username" autocomplete="off">
+      </div>
+      
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="adminPassword" class="login-input" placeholder="Enter password">
+      </div>
+      
+      <button class="login-btn" id="loginBtn">
+        <span class="btn-text">Login</span>
+        <span class="btn-loader" style="display:none;"></span>
+      </button>
+      
+      <div class="login-error" id="loginError"></div>
+    </div>
+    
+    <div class="login-footer">
+      <p></p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast-message" id="toastMessage"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+      <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" fill="none" stroke="var(--accent-color)" stroke-width="1.5"/>
+      <text x="16" y="20" text-anchor="middle" fill="var(--accent-color)" font-size="10" font-family="Bebas Neue">A</text>
+    </svg>
+    <span>ALFREDD MARKETPLACE</span>
+  </div>
+  <nav class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="support.html">Support</a>
+  </nav>
+  <p class="footer-copy">© 2026 ALFREDD Marketplace. All rights reserved.</p>
+  <div class="footer-dev">
+     Developed by <strong>MaouKnowsJava</strong> — 
+    <a href="https://t.me/fwmaou" target="_blank">t.me/fwmaou</a> 
+    | <a href="https://daddymaou.github.io/maou" target="_blank">MaouKnowsJava</a>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="js/index.js"></script>
+<script src="js/admin-login.js"></script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>ALFREDD | Digital Marketplace</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/mobile.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Featured Products Section */
+.featured-products {
+  padding: 4rem 6%;
+  background: var(--bg-secondary);
+}
+
+.featured-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.featured-header h2 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.featured-header p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.products-slider {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.8rem;
+  margin-top: 1rem;
+}
+
+.featured-product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.featured-product-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-color);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.featured-product-image {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.featured-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.featured-product-card:hover .featured-product-image img {
+  transform: scale(1.05);
+}
+
+.featured-product-info {
+  padding: 1.2rem;
+}
+
+.featured-product-category {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.8rem;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--accent-color);
+  border-radius: 30px;
+  margin-bottom: 0.6rem;
+}
+
+.featured-product-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+
+.featured-product-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent-color);
+}
+
+.view-all-btn {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.view-all-btn .btn-primary {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+}
+
+body.dark .featured-product-card {
+  background: rgba(30, 27, 24, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 768px) {
+  .featured-products {
+    padding: 2.5rem 5%;
+  }
+  .featured-header h2 {
+    font-size: 1.8rem;
+  }
+  .products-slider {
+    gap: 1rem;
+  }
+  .featured-product-image {
+    height: 160px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo" id="navLogo">
+    <span class="logo-text">ALFREDD</span>
+  </div>
+  
+  <!-- Mobile Right Icons (Theme Toggle + Menu Button) -->
+  <div class="mobile-actions">
+    <button class="mobile-theme-toggle" id="mobileThemeToggleBtn" aria-label="Toggle theme">
+      <svg class="mobile-sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="mobile-moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <button class="menu-btn" id="menuBtn">
+      <span class="menu-icon">
+        <span class="menu-dot"></span>
+        <span class="menu-dot"></span>
+        <span class="menu-dot"></span>
+      </span>
+      <span class="cancel-icon">✕</span>
+    </button>
+  </div>
+  
+  <!-- Desktop Navigation -->
+  <ul class="desktop-nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="catalog.html">Catalog</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="admin-login.html" class="nav-admin">Admin</a></li>
+    <li>
+      <button class="theme-toggle-btn" id="desktopThemeToggle" aria-label="Toggle theme">
+        <span class="theme-toggle-icon">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+      </button>
+    </li>
+  </ul>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="catalog.html">Catalog</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="admin-login.html" class="nav-admin">Admin</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+
+  <div class="hero-art">
+    <svg width="300" height="300" viewBox="0 0 340 340" fill="none">
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--accent-color)" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="var(--accent-color)" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="faceTop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--accent-light)"/>
+          <stop offset="100%" stop-color="var(--accent-color)"/>
+        </linearGradient>
+        <linearGradient id="faceLeft" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="var(--accent-dark)"/>
+          <stop offset="100%" stop-color="var(--accent-color)"/>
+        </linearGradient>
+        <linearGradient id="faceRight" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="var(--accent-color)"/>
+          <stop offset="100%" stop-color="var(--accent-light)"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="170" cy="200" rx="130" ry="80" fill="url(#glow1)"/>
+      <polygon points="170,30 255,80 255,180 170,230 85,180 85,80" fill="none" stroke="var(--accent-color)" stroke-width="0.8" opacity="0.3" class="spin-slow"/>
+      <g>
+        <polygon points="170,90 230,122 170,154 110,122" fill="url(#faceTop)"/>
+        <polygon points="230,122 230,182 170,214 170,154" fill="url(#faceRight)" opacity="0.9"/>
+        <polygon points="110,122 110,182 170,214 170,154" fill="url(#faceLeft)"/>
+        <polyline points="170,90 230,122 230,182 170,214 110,182 110,122 170,90" fill="none" stroke="var(--accent-light)" stroke-width="0.8" opacity="0.5"/>
+      </g>
+      <text x="170" y="138" text-anchor="middle" font-family="Bebas Neue" font-size="28" fill="var(--bg-primary)" opacity="0.6" transform="skewX(-10)">A</text>
+      <circle cx="80" cy="100" r="2" fill="var(--accent-color)" opacity="0.6" class="float1"/>
+      <circle cx="260" cy="90" r="1.5" fill="var(--accent-light)" opacity="0.5" class="float2"/>
+      <circle cx="290" cy="170" r="2" fill="var(--accent-color)" opacity="0.4" class="float3"/>
+      <circle cx="50" cy="190" r="1.5" fill="var(--accent-dark)" opacity="0.5" class="float2"/>
+      <circle cx="240" cy="260" r="1.5" fill="var(--accent-light)" opacity="0.4" class="float3"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="tag-dot"></span>
+      Digital Products Marketplace
+    </div>
+    <h1 class="hero-title">
+      <span class="title-line">YOUR DIGITAL</span>
+      <span class="title-line accent">EDGE STARTS</span>
+      <span class="title-line">HERE.</span>
+    </h1>
+    <p class="hero-sub">Social accounts, foreign numbers, VPNs, private sites, and more — everything you need to operate online, smarter.</p>
+    <div class="hero-cta">
+      <a href="catalog.html" class="btn-primary">Browse Catalog</a>
+      <a href="support.html" class="btn-ghost">Leave a Review</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS SECTION -->
+<section class="featured-products">
+  <div class="featured-header">
+    <h2>Popular Products</h2>
+    <p>Top selling items from our catalog</p>
+  </div>
+  
+  <div class="products-slider">
+    <div class="featured-product-card" onclick="window.location.href='catalog.html'">
+      <div class="featured-product-image">
+        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=200&fit=crop" alt="Instagram Account">
+      </div>
+      <div class="featured-product-info">
+        <span class="featured-product-category">Social Accounts</span>
+        <div class="featured-product-name">Instagram Aged Account</div>
+        <div class="featured-product-price">₦5,000</div>
+      </div>
+    </div>
+    
+    <div class="featured-product-card" onclick="window.location.href='catalog.html'">
+      <div class="featured-product-image">
+        <img src="https://images.unsplash.com/photo-1592324973232-749507f3b07b?w=400&h=200&fit=crop" alt="VPN Service">
+      </div>
+      <div class="featured-product-info">
+        <span class="featured-product-category">VPN Services</span>
+        <div class="featured-product-name">Premium VPN - 1 Year</div>
+        <div class="featured-product-price">₦15,000</div>
+      </div>
+    </div>
+    
+    <div class="featured-product-card" onclick="window.location.href='catalog.html'">
+      <div class="featured-product-image">
+        <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=200&fit=crop" alt="US Number">
+      </div>
+      <div class="featured-product-info">
+        <span class="featured-product-category">Foreign Numbers</span>
+        <div class="featured-product-name">US Virtual Phone Number</div>
+        <div class="featured-product-price">₦3,000</div>
+      </div>
+    </div>
+    
+    <div class="featured-product-card" onclick="window.location.href='catalog.html'">
+      <div class="featured-product-image">
+        <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&h=200&fit=crop" alt="Netflix Account">
+      </div>
+      <div class="featured-product-info">
+        <span class="featured-product-category">Private Sites</span>
+        <div class="featured-product-name">Netflix Premium Account</div>
+        <div class="featured-product-price">₦8,000</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="view-all-btn">
+    <a href="catalog.html" class="btn-primary">View All Products →</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num" id="stat1">500</span><span class="stat-suffix">+</span>
+    <span class="stat-label">Products Sold</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <span class="stat-num" id="stat2">98</span><span class="stat-suffix">%</span>
+    <span class="stat-label">Satisfaction</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item">
+    <span class="stat-num" id="stat3">12</span><span class="stat-suffix">+</span>
+    <span class="stat-label">Categories</span>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories section">
+  <div class="section-header">
+    <h2>What We Offer</h2>
+    <p>Premium digital products delivered fast and secure</p>
+  </div>
+  <div class="cat-grid">
+    <a href="catalog.html?cat=social" class="cat-card">
+      <div class="cat-icon">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="14" r="6" stroke="var(--accent-color)" stroke-width="1.5"/>
+          <circle cx="8" cy="14" r="4" stroke="var(--accent-color)" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="28" cy="14" r="4" stroke="var(--accent-color)" stroke-width="1.2" opacity="0.6"/>
+          <path d="M4 28c0-4 3-6 4-6m24 6c0-4-3-6-4-6M12 28c0-4 2.7-6 6-6s6 2 6 6" stroke="var(--accent-color)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+        </svg>
+      </div>
+      <h3>Social Media</h3>
+      <p>Aged & verified accounts</p>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="catalog.html?cat=vpn" class="cat-card">
+      <div class="cat-icon">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="12" stroke="var(--accent-color)" stroke-width="1.5"/>
+          <path d="M18 6c-4 4-6 8-6 12s2 8 6 12M18 6c4 4 6 8 6 12s-2 8-6 12M6 18h24" stroke="var(--accent-color)" stroke-width="1.2" opacity="0.7" fill="none"/>
+          <circle cx="18" cy="18" r="3" fill="var(--accent-color)" opacity="0.6"/>
+        </svg>
+      </div>
+      <h3>VPN Services</h3>
+      <p>Stay anonymous online</p>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="catalog.html?cat=numbers" class="cat-card">
+      <div class="cat-icon">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <rect x="10" y="4" width="16" height="28" rx="3" stroke="var(--accent-color)" stroke-width="1.5"/>
+          <circle cx="18" cy="28" r="1.5" fill="var(--accent-color)" opacity="0.7"/>
+          <line x1="14" y1="8" x2="22" y2="8" stroke="var(--accent-color)" stroke-width="1.2" opacity="0.6"/>
+          <text x="18" y="21" text-anchor="middle" fill="var(--accent-color)" font-size="9" font-family="monospace" opacity="0.8">+1</text>
+        </svg>
+      </div>
+      <h3>Foreign Numbers</h3>
+      <p>US, UK, CA, EU numbers</p>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="catalog.html?cat=sites" class="cat-card">
+      <div class="cat-icon">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <rect x="4" y="8" width="28" height="20" rx="2" stroke="var(--accent-color)" stroke-width="1.5"/>
+          <line x1="4" y1="14" x2="32" y2="14" stroke="var(--accent-color)" stroke-width="1" opacity="0.6"/>
+          <circle cx="8" cy="11" r="1.2" fill="var(--accent-color)" opacity="0.7"/>
+          <circle cx="12" cy="11" r="1.2" fill="var(--accent-color)" opacity="0.5"/>
+          <rect x="8" y="18" width="12" height="2" rx="1" fill="var(--accent-color)" opacity="0.4"/>
+        </svg>
+      </div>
+      <h3>Private Sites</h3>
+      <p>Exclusive platforms access</p>
+      <span class="cat-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why section">
+  <div class="section-header">
+    <h2>Why ALFREDD?</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <h4>Instant Delivery</h4>
+      <p>Products delivered fast — no waiting.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <h4>Verified Quality</h4>
+      <p>Every product tested before listing.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <h4>Secure & Private</h4>
+      <p>Your identity stays private, always.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <h4>Real Support</h4>
+      <p>We actually respond. Anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+      <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" fill="none" stroke="var(--accent-color)" stroke-width="1.5"/>
+      <text x="16" y="20" text-anchor="middle" fill="var(--accent-color)" font-size="10" font-family="Bebas Neue">A</text>
+    </svg>
+    <span>ALFREDD MARKETPLACE</span>
+  </div>
+  <nav class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="support.html">Support</a>
+  </nav>
+  <p class="footer-copy">© 2026 ALFREDD Marketplace. All rights reserved.</p>
+  <div class="footer-dev">
+     Developed by <strong>MaouKnowsJava</strong> — 
+    <a href="https://t.me/fwmaou" target="_blank">t.me/fwmaou</a> 
+    | <a href="https://daddymaou.github.io/maou" target="_blank">MaouKnowsJava</a>
+  </div>
+</footer>
+
+<script src="js/index.js"></script>
+</body>
+</html>
