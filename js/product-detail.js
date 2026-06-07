@@ -1,4 +1,5 @@
 // js/product-detail.js - Product Detail Page with WhatsApp Order (No Emojis)
+// Cross-browser WhatsApp redirect fix
 
 console.log('Product-detail.js loaded');
 
@@ -141,7 +142,86 @@ function renderProductDetail(product) {
   `;
 }
 
-// Send order via WhatsApp
+// FIXED: Cross-browser WhatsApp redirect function
+function openWhatsApp(phoneNumber, message) {
+  // Format phone number (remove any non-digit characters)
+  const cleanNumber = phoneNumber.toString().replace(/\D/g, '');
+  
+  // Encode message for URL
+  const encodedMessage = encodeURIComponent(message);
+  
+  // Method 1: Try WhatsApp Web URL (works on desktop and mobile browsers)
+  const whatsappWebUrl = `https://web.whatsapp.com/send?phone=${cleanNumber}&text=${encodedMessage}`;
+  
+  // Method 2: WhatsApp API URL (works on mobile devices that have WhatsApp installed)
+  const whatsappApiUrl = `whatsapp://send?phone=${cleanNumber}&text=${encodedMessage}`;
+  
+  // Method 3: Direct wa.me link (fallback for all platforms)
+  const waMeUrl = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
+  
+  // Detect if user is on mobile device
+  const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+  
+  // Detect if user is on iOS
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  
+  if (isMobile) {
+    // Mobile devices - try WhatsApp app first
+    if (isIOS) {
+      // iOS: Use whatsapp:// URL scheme
+      window.location.href = whatsappApiUrl;
+      
+      // Fallback to web if app doesn't open
+      setTimeout(() => {
+        window.location.href = waMeUrl;
+      }, 500);
+    } else {
+      // Android: Try api first, then fallback
+      window.location.href = whatsappApiUrl;
+      
+      setTimeout(() => {
+        // If app didn't open, try web version
+        window.location.href = waMeUrl;
+      }, 500);
+    }
+  } else {
+    // Desktop - use WhatsApp Web
+    window.open(whatsappWebUrl, '_blank', 'noopener,noreferrer');
+    
+    // Also show a helpful message for desktop users
+    setTimeout(() => {
+      if (!document.querySelector('.whatsapp-desktop-tip')) {
+        const tipDiv = document.createElement('div');
+        tipDiv.className = 'whatsapp-desktop-tip';
+        tipDiv.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #25D366;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 8px;
+          font-size: 14px;
+          z-index: 9999;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+          animation: slideIn 0.3s ease-out;
+        `;
+        tipDiv.innerHTML = `
+          If WhatsApp Web doesn't open automatically, 
+          <a href="${waMeUrl}" target="_blank" style="color: white; font-weight: bold;">click here</a>
+          <button onclick="this.parentElement.remove()" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">x</button>
+        `;
+        document.body.appendChild(tipDiv);
+        
+        setTimeout(() => {
+          if (tipDiv && tipDiv.remove) tipDiv.remove();
+        }, 8000);
+      }
+    }, 1000);
+  }
+}
+
+// Send order via WhatsApp - FIXED VERSION
 async function sendWhatsAppOrder(productId) {
   const customerName = document.getElementById('customerName')?.value.trim();
   const customerPhone = document.getElementById('customerPhone')?.value.trim();
@@ -209,21 +289,26 @@ async function sendWhatsAppOrder(productId) {
       console.warn('Could not save order to Firebase:', saveError);
     }
     
-    // Open WhatsApp
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    // USE THE NEW CROSS-BROWSER FUNCTION
+    openWhatsApp(WHATSAPP_NUMBER, message);
     
-    alert('Redirecting to WhatsApp! Please send the message to complete your order.');
+    // Show success message
+    setTimeout(() => {
+      alert('WhatsApp is opening. Please send the message to complete your order.');
+    }, 500);
     
     // Clear form
     document.getElementById('customerName').value = '';
     document.getElementById('customerPhone').value = '';
     document.getElementById('orderNote').value = '';
     
-    // Optional: Redirect back to catalog after 3 seconds
+    // Optional: Redirect back to catalog after 8 seconds
     setTimeout(() => {
-      window.location.href = 'catalog.html';
-    }, 5000);
+      const shouldRedirect = confirm('Return to catalog?');
+      if (shouldRedirect) {
+        window.location.href = 'catalog.html';
+      }
+    }, 8000);
     
   } catch (error) {
     console.error('Error:', error);
@@ -298,3 +383,19 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM loaded, initializing product detail...');
   loadProductDetail();
 });
+
+// Add CSS animation for the tip message
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+`;
+document.head.appendChild(style);
